@@ -1,8 +1,78 @@
-NAME: Karthik Iyer
-NET ID: kai49
+Server Client project 
 
-PARTNER NAME: Neerej Selvakumar
-PARTNER NED ID: ns1137
+Created a simple key-value server that listens to client requests and stores key-value combinations that are requested by the client. 
+Server processes message and sends a message back to client.
+
+Client can make 3 different requests, GET, SET, and DEL
+
+Our communication protocol has three requests that the client may send to the server.
+
+GET - key Requests the current value associated with key. If key is set, the server returns its value. Otherwise it returns key-not-found error.
+SET - key, value Associates value with key.
+DEL - key Deletes key from storage. If key is set, it returns the value that was associated with it and unsets the key. Otherwise, it returns 
+key-not-found error.
+
+Requests sent by the client are broken into three or four fields, each terminated by a newline
+character (\n). Each message begins with a code identifying the message type, followed by a decimal
+integer specifying the length (in bytes) of the payload, and finally the payload itself.
+The message codes are GET, SET, and DEL. The payload for GET and DEL is one field, indicating
+the key to retrieve or delete. The payload for SET is two fields, indicating the key and value.
+The message length is the length of the fields making up the payload (in bytes), including the
+newlines that terminate each field. Thus, the string literal "GET\n4\nday\n" represents a request
+for the key “day”.
+
+Successful responses For each client request, the server has a corresponding response message
+indicating success. Each response begins with a response code followed by a newline. The response
+codes are OKG (for get), OKS (for set), and OKD (for delete).
+
+The OKG and OKD codes will be followed by a payload length field and the payload itself, which will
+be the value associated with the key requested or deleted. The string literal "OKG\n7\nSunday\n"
+represents a successful response to a GET with the value “Sunday”.
+Unsuccessful response If a GET or DEL request asks for a key that is not set, the server will
+respond with KNF followed by a newline.
+
+Error responses Error messages from the server begin with the code ERR followed by a newline,
+a three-character error code, and the final newline.
+
+The error codes are BAD, indicating a malformed message, LEN, indicating that the message
+length was incorrect, and SRV, indicating an internal error in the server.
+We consider messages containing an unknown message code, or one that is inappropriate in
+context, or fields containing inappropriate data (such as non-digit characters in the length field) to
+be malformed. Messages that contain the wrong number of newlines will generally have the wrong
+length.
+
+The server will close the connection after sending an error response.
+
+EXAMPLES --
+
+SET
+11
+day
+Sunday
+          Note that each field in the message ends with a newline character.
+          The server sets “day” and reports success.
+OKS
+          Next, a client requests the current value associated with “day”:
+GET
+4
+day
+          The server responds with the current value.
+OKG
+7
+Sunday
+           A client requests to delete the key “day”.
+DEL
+4
+day
+           The server unsets the key and responds with its most recent value.
+OKD
+7
+Sunday
+           A client requests the value associated with “day”.
+
+
+
+
 
 We had many different strategies for testing. The first thing we needed to test was the server itself, 
 to make sure it was binding correctly and that the socket was being opened. We then had to check if the
