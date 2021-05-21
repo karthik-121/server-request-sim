@@ -1,0 +1,14 @@
+NAME: Karthik Iyer
+NET ID: kai49
+
+PARTNER NAME: Neerej Selvakumar
+PARTNER NED ID: ns1137
+
+We had many different strategies for testing. The first thing we needed to test was the server itself, 
+to make sure it was binding correctly and that the socket was being opened. We then had to check if the
+server was able to connect correctly to a client or netcat. The actual coding part with the string literal
+from the client was done in separate parts. We made sure the 3 letter command was working before moving on
+to scan the length of the rest of the string literal. Once these two things were done we had to properly
+incorporate the GET, SET and DEL commands and when we finished and we got all these things to work we knew 
+that our program was working. We finally worked on incorporating the threads at the end, and once it was working
+for multiple connections we realized it was working with multiple threads. 
